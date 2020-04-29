@@ -1,0 +1,173 @@
+﻿@using Me.StudentManagement.Entity.Enum
+@model Me.StudentManagement.Entity.Models.StudentFullClassScore
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StudentListView</title>
+    <link rel="stylesheet" href="~/layui/css/layui.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="~/layui/layui.all.js"></script>
+    <script src="~/js/AddData.js"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        学生列表
+                    </div>
+                    <div class="layui-inline">
+                        <form class="layui-form" onsubmit="return false">
+                            <div class="layui-form-item layui-col-md12" style="padding-top: 10px">
+                                <label class="layui-form-label">姓名</label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" id="search-name" type="text" required lay-verify="required" autocomplete="off" placeholder="输入学生姓名" />
+                                </div>
+
+                                <label class="layui-form-label">年级</label>
+                                <div class="layui-input-inline">
+                                    <div class="layui-input-inline">
+                                        <select asp-for="Grade" asp-items="Html.GetEnumSelectList<Grade>()" required lay-verify="required" class="layui-input" lay-filter="studentGrade" placeholder="选择学生班级">
+                                            <option placeholder=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label class="layui-form-label">班级</label>
+                                <div class="layui-input-inline">
+                                    <select id="ClassName" name="ClassName" required lay-verify="required" class="layui-input" placeholder="选择学生班级">
+                                        <option placeholder=""></option>
+                                    </select>
+                                </div>
+                                <button class="layui-btn" lay-submit data-type="reload" lay-filter="search-student">查询</button>
+                                <button type="button" class="layui-btn" data-type="reload" id="search-all">查询全部</button>
+                            </div>
+                        </form>
+                        
+                    </div>
+                    <table id="table-page" lay-filter="test3"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="bar">
+        <a class="layui-btn layui-btn-xs" lay-event="view">查看</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+<script>
+    var table;
+    layui.use(["table","jquery","form"],
+        function () {
+            var form = layui.form;
+            table = layui.table;
+            var $ = layui.jquery;
+            var tableln = table.render({
+                elem: "#table-page",
+                height: "520",
+                url: "@Url.Action("TestResult", "DataReadOrWrite")",
+                cols: [
+                    [
+                        { field: "id", width: 60, title: "排名", type: "numbers", fixed: 'left'},
+                        { field: "@Html.DisplayNameFor(model => model.StudentInfoId)", width: 80, title: "ID", hide: true },
+                        { field: "@Html.DisplayNameFor(model => model.ClassInfoId)", width: 80, title: "ClassID", hide: true },
+                        { field: "@Html.DisplayNameFor(model=>model.Name)", width: 80, title: "姓名" },
+                        { field: "@Html.DisplayNameFor(model => model.Age)", width: 70, title: "年龄", hide:true },
+                        { field: "@Html.DisplayNameFor(model=>model.Gender)", width: 70, title: "性别",hide:true },
+                        { field: "@Html.DisplayNameFor(model => model.Phone)", width: 80, title: "电话",hide:true },
+                        { field: "@Html.DisplayNameFor(model=>model.Grade)", width: 80, title: "年级" },
+                        { field: "@Html.DisplayNameFor(model=>model.ClassName)", width: 80, title: "班级", sort: true },
+                        { field: "@Html.DisplayNameFor(model => model.Chinese)", width: 80, title: "语文", sort: true, edit: "text" },
+                        { field: "@Html.DisplayNameFor(model=>model.Math)", width: 80, title: "数学", sort: true, edit: "text"},
+                        { field: "@Html.DisplayNameFor(model => model.English)", width: 80, title: "英语", sort: true, edit: "text"},
+                        { field: "@Html.DisplayNameFor(model=>model.Physics)", width: 80, title: "物理", sort: true, edit: "text"},
+                        { field: "@Html.DisplayNameFor(model => model.Biology)", width: 80, title: "生物", sort: true, edit: "text"},
+                        { field: "@Html.DisplayNameFor(model=>model.Chemistry)", width: 80, title: "化学", sort: true, edit: "text"},
+                        { field: "@Html.DisplayNameFor(model=>model.Geography)", width: 80, title: "地理", sort: true, edit: "text"},
+                        { field: "@Html.DisplayNameFor(model=>model.History)", width: 80, title: "历史", sort: true, edit: "text"},
+                        { field: "@Html.DisplayNameFor(model=>model.Politics)", width: 80, title: "政治", sort: true, edit: "text"},
+                        { field: "@Html.DisplayNameFor(model=>model.TotalScore)", width: 80, title: "总成绩", sort: true},
+                        { fixed: 'right', title: '操作', toolbar: '#bar', width: 150 }
+                    ]
+                ],
+                initSort: {
+                    field: "TotalScore",
+                    type: "desc"
+                },
+                page: true
+            });
+
+            $("#search-all").click("click", function (data) {
+                var name = $("#search-name").val();
+                var grade = $("#Grade").val();
+                var className = $("#ClassName").val();
+                console.log(name + grade + className);
+                tableln.reload({
+                    url: "/DataReadOrWrite/TestResult",
+                    page: { curr: 1 }
+                },"data");
+            });
+
+            form.on("submit(search-student)", function (data) {
+                var name = $("#search-name").val();
+                var grade = $("#Grade").val();
+                var className = $("#ClassName").val();
+                console.log(name + grade + className);
+                tableln.reload({
+                    url: "/DataReadOrWrite/SutudentSearch",
+                    where: {
+                        searchName: name,
+                        grade: grade,
+                        className:className
+                    },
+                    page: { curr: 1 }
+                },"data");
+            });
+
+            
+            });
+
+    table.on("tool(test3)",
+        function (obj) {
+            var time = Date.now();
+            var data = obj.data;
+            var event = obj.event;
+            console.log(time);
+            if (event === "view") {
+                layer.open({
+                    id: time,
+                    type: 2,
+                    title: '平时成绩',
+                    area: ['700px', '700px'],
+                    skin: 'layui-layer-rim',
+                    content: "@Url.Action("StudentUsuallyScore", "Create")",
+                    success: function(layero, index) {
+                        var iframe = window['layui-layer-iframe' + index];
+                        iframe.child(data);
+                    }
+                });
+            } else if (event === "del") {
+                layer.confirm("确定删除吗？",
+                    function(index) {
+                        obj.del();
+                        layer.close(index);
+                        console.log(data);
+                        var url = "@Url.Action("DeleteUser","DataReadOrWrite")";
+                        var datas = {
+                            Identity: "student",
+                            UserId: data.StudentInfoId
+                        };
+                        AjaxAddForm(url, datas);
+                    });
+            }
+        });
+</script>
+</body>
+</html>

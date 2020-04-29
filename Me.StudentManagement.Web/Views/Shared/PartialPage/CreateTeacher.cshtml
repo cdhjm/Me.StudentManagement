@@ -1,0 +1,119 @@
+﻿@using Me.StudentManagement.Entity.Enum
+@model Me.StudentManagement.Entity.Models.Teacher_Info
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_ScriptLayout";
+}
+
+
+<form class="layui-form" onsubmit="return false">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="layui-inline">
+        <div class="layui-form-item">
+            <div class="form-group">
+                <label asp-for="Name" class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input asp-for="Name" type="text" required lay-verify="required" class="layui-input" autocomplete="off" placeholder="输入教师姓名" />
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="form-group">
+                <label asp-for="Age" class="layui-form-label">年龄</label>
+                <div class="layui-input-block">
+                    <input asp-for="Age" required lay-verify="required" class="layui-input" placeholder="输入教师年龄" />
+                </div>
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="form-group">
+                <label asp-for="Phone" class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input asp-for="Phone" required lay-verify="required|phone" class="layui-input" placeholder="输入教师电话" />
+                </div>
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="form-group">
+                <label asp-for="Gender" class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input asp-for="Gender" type="radio" value="男" title="男" />
+                    <input asp-for="Gender" type="radio" value="女" title="女" checked />
+                </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="form-group">
+                <label asp-for="Course" class="layui-form-label">课程</label>
+                <div class="layui-input-block">
+                    <select asp-for="Course" asp-items="Html.GetEnumSelectList<Course>()" required lay-verify="required" lay-filter="studentCourse" class="layui-input" placeholder="选择教师课程"></select>
+                </div>
+                <span asp-validation-for="Course" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="form-group">
+                <label asp-for="Grade" class="layui-form-label">年级</label>
+                <div class="layui-input-block">
+                    <select asp-for="Grade" asp-items="Html.GetEnumSelectList<Grade>()" required lay-verify="required" lay-filter="studentGrade" class="layui-input" placeholder="选择年级">
+                        <option placeholder=""></option>
+                    </select>
+                </div>
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="form-group">
+                <label asp-for="ClassName" class="layui-form-label">班级</label>
+                <div class="layui-input-block">
+                    <select asp-for="ClassName" required lay-verify="required" lay-filter="studentClassName" class="layui-input" placeholder="选择班级">
+                        <option placeholder=""></option>
+                    </select>
+                </div>
+                <span asp-validation-for="ClassName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="form-group">
+                <label asp-for="Password" class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input asp-for="Password" type="password" required lay-verify="required" class="layui-input" placeholder="输入教师登录密码" />
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item layui-form-text">
+            <div class="form-group">
+                <label asp-for="Remark" class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea asp-for="Remark" class="layui-textarea" style="width: 250px" placeholder="输入教师备注信息"></textarea>
+                </div>
+                <span asp-validation-for="Remark" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="form-group">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="teacher">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

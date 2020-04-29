@@ -1,0 +1,317 @@
+﻿@model Me.StudentManagement.Entity.Models.StudentFullClassScore
+
+@{ Layout = null;}
+
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>学生管理系统</title>
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
+    <script src="~/js/AddData.js"></script>
+</head>
+<body>
+
+
+    <form class="layui-form" onsubmit="return false">
+        <div class="layui-form-item layui-col-md12" style="padding-top: 10px">
+            <div class="layui-inline">
+                <label asp-for="Chinese" class="layui-form-label">语文</label>
+                <div class="layui-input-inline">
+                    <input asp-for="Chinese" class="layui-input" type="text" autocomplete="off" placeholder="输入语文成绩" />
+                </div>
+
+                <label asp-for="Math" class="layui-form-label">数学</label>
+                <div class="layui-input-inline">
+                    <input asp-for="Math" class="layui-input" type="text" autocomplete="off" placeholder="输入数学成绩" />
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label asp-for="English" class="layui-form-label">英语</label>
+                <div class="layui-input-inline">
+                    <input asp-for="English" class="layui-input" type="text" autocomplete="off" placeholder="输入英语成绩" />
+                </div>
+
+                <label asp-for="Politics" class="layui-form-label">政治</label>
+                <div class="layui-input-inline">
+                    <input asp-for="Politics" class="layui-input" type="text" autocomplete="off" placeholder="输入政治成绩" />
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label asp-for="History" class="layui-form-label">历史</label>
+                <div class="layui-input-inline">
+                    <input asp-for="History" class="layui-input" type="text" autocomplete="off" placeholder="输入历史成绩" />
+                </div>
+
+                <label asp-for="Geography" class="layui-form-label">地理</label>
+                <div class="layui-input-inline">
+                    <input asp-for="Geography" class="layui-input" type="text" autocomplete="off" placeholder="输入地理成绩" />
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label asp-for="Physics" class="layui-form-label">物理</label>
+                <div class="layui-input-inline">
+                    <input asp-for="Physics" class="layui-input" type="text" autocomplete="off" placeholder="输入物理成绩" />
+                </div>
+
+                <label asp-for="Chemistry" class="layui-form-label">化学</label>
+                <div class="layui-input-inline">
+                    <input asp-for="Chemistry" class="layui-input" type="text" autocomplete="off" placeholder="输入化学成绩" />
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label asp-for="Biology" class="layui-form-label">生物</label>
+                <div class="layui-input-inline">
+                    <input asp-for="Biology" class="layui-input" type="text" autocomplete="off" placeholder="输入生物成绩" />
+                </div>
+                <label class="layui-form-label"></label>
+                <button class="layui-btn layui-input-inline " lay-submit lay-filter="AddUsuallyScore">添加</button>
+
+            </div>
+        </div>
+    </form>
+
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">语文</li>
+            <li>数学</li>
+            <li>英语</li>
+            <li>政治</li>
+            <li>历史</li>
+            <li>地理</li>
+            <li>物理</li>
+            <li>化学</li>
+            <li>生物</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 300px">
+            <div class="layui-tab-item layui-show">
+                <table id="chinese-page" lay-filter="chinese"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="math-page" lay-filter="math"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="english-page" lay-filter="english"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="politics-page" lay-filter="politics"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="history-page" lay-filter="history"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="geography-page" lay-filter="geography"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="physics-page" lay-filter="physics"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="chemistry-page" lay-filter="chemistry"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="biology-page" lay-filter="biology"></table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var parentData;
+        function child(data) {
+            parentData = data;
+            console.log(parentData.StudentInfoId);
+            console.log(data);
+        }
+    var col = [
+        [
+            { field: "id", width: 60, title: "排序", type: "numbers", fixed: 'left' },
+            { field: "Id", width: 80, title: "Id" },
+            { field: "StudentInfoId", width: 80, title: "StudentID", hide: true },
+            { field: "ClassInfoId", width: 80, title: "ClassID", hide: true },
+            { field: "Name", width: 80, align: 'center', title: "姓名" },
+            { field: "Score", width: 70, align: 'center', title: "成绩" },
+            { field: "DateTime", width: 200, align: 'center', title: "时间" }
+        ]
+    ];
+    layui.use(["form", "element", "jquery", "table"],
+        function () {
+            var form = layui.form;
+            var element = layui.element;
+            var $ = layui.jquery;
+            var table = layui.table;
+            var timeId = Date.now();
+            form.on("submit(AddUsuallyScore)",
+                function(data) {
+                    var url = "@Url.Action("AddUsuallyScore","DataReadOrWrite")";
+                    var datas = {
+                        id: timeId,
+                        StudentName: parentData.Name,
+                        ClassInfoId: parentData.ClassInfoId,
+                        StudentsInfoId: parentData.StudentInfoId
+                    };
+                    var newData = $.extend({}, datas, data.field);
+                    var reload = {
+                        url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                        page: { curr: 1 }
+                    }
+                    console.log(newData);
+                    AjaxAddForm(url, newData);
+                });
+            var chinese_table = table.render({
+                elem: "#chinese-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "Chinese"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+
+            var math_table = table.render({
+                elem: "#math-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "Math"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+
+
+            var english_table = table.render({
+                elem: "#english-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "English"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+
+            var politics_table = table.render({
+                elem: "#politics-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "Politics"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+
+            var history_table = table.render({
+                elem: "#history-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "History"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+
+            var geography_table = table.render({
+                elem: "#geography-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "Geography"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+
+            var physics_table = table.render({
+                elem: "#physics-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "Physics"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+
+            var chemistry_table = table.render({
+                elem: "#chemistry-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "Chemistry"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+            var biology_table = table.render({
+                elem: "#biology-page",
+                height: "300",
+                url: "@Url.Action("QueryCourseScore","DataReadOrWrite")",
+                where: {
+                    StudentsInfoId: parentData.StudentInfoId,
+                    course: "Biology"
+                },
+                cols: col,
+                initSort: {
+                    field: "DataTime",
+                    type: "desc"
+                },
+                page: true
+            });
+
+        });
+
+
+
+
+    </script>
+</body>
+</html>
