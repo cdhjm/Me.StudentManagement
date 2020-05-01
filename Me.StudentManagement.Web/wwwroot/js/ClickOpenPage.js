@@ -1,4 +1,5 @@
-﻿layui.use(['layer'],
+﻿
+layui.use(['layer', "form"],
     function () {
         var layer = layui.layer;
         $.ajax({

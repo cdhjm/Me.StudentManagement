@@ -21,7 +21,7 @@ namespace Me.StudentManagement.Common
             
         }
 
-
+        //这里使用 ef core初始化数据表
         public DbSet<ClassRoom> ClassRooms { get; set; }
         public DbSet<Teacher_Info> TeacherInfos { get; set; }
         public DbSet<Students_Info> StudentsInfos { get; set; }
@@ -39,6 +39,7 @@ namespace Me.StudentManagement.Common
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Encryption _encryption = new Encryption();
+            //这里为数据库初始化数据
             modelBuilder.Entity<Students_Info>().HasData(new Students_Info[2]
             {
                 new Students_Info(){ Id = "BD22C998A7996360AA636920A42AEE8E", Name = "陈东辉", ClassName = "一班", Grade = Grade.一年级, Gender = "男", Age = 22, Phone = 13501637480, Remark = "小心", DateTime = _encryption.Time()},

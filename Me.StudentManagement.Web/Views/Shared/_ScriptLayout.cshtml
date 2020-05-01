@@ -13,5 +13,12 @@
 <body>
     <div style="margin-top: 20px"></div>
     @RenderBody()
+<script>
+    layui.use(['layer', "form"],
+        function () {
+            var layer = layui.layer;
+            var form = layui.form;
+        });
+</script>
 </body>
 </html>

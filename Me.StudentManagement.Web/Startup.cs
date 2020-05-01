@@ -101,7 +101,7 @@ namespace Me.StudentManagement.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Account}/{action=Login}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}");
             });
 
             //app.Run(run => run.Response.WriteAsync(env.EnvironmentName + Configuration.GetConnectionString("BloggingDatabase")));

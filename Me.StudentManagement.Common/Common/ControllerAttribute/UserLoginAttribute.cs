@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Web.Http.Controllers;
 using Me.StudentManagement.Common;
 using Me.StudentManagement.Entity.Models;
 using Me.StudentManagement.Logic.InterfaceAll;
